@@ -1,0 +1,11 @@
+const express = require("express");
+const router  = express.Router();
+const { getWallet, addFunds, withdraw, getLedger } = require("../controllers/walletController");
+const { protect } = require("../middleware/auth");
+const { walletRules, validate } = require("../middleware/validators");
+router.use(protect);
+router.get ("/",         getWallet);
+router.get ("/ledger",   getLedger);
+router.post("/add",      walletRules, validate, addFunds);
+router.post("/withdraw", walletRules, validate, withdraw);
+module.exports = router;

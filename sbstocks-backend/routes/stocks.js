@@ -1,0 +1,15 @@
+const express = require("express");
+const router  = express.Router();
+const { getAllStocks, getGainers, getLosers, getStock, getLivePrice, createStock, updateStock, deleteStock } = require("../controllers/stockController");
+const { protect, authorize } = require("../middleware/auth");
+const { stockRules, validate } = require("../middleware/validators");
+router.use(protect);
+router.get("/",           getAllStocks);
+router.get("/gainers",    getGainers);
+router.get("/losers",     getLosers);
+router.get("/:symbol/price", getLivePrice);
+router.get("/:symbol",    getStock);
+router.post  ("/",    authorize("admin"), stockRules, validate, createStock);
+router.put   ("/:id", authorize("admin"), updateStock);
+router.delete("/:id", authorize("admin"), deleteStock);
+module.exports = router;

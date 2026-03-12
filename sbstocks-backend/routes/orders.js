@@ -1,0 +1,11 @@
+const express = require("express");
+const router  = express.Router();
+const { placeOrder, getOrders, getPendingOrders, cancelOrder } = require("../controllers/orderController");
+const { protect } = require("../middleware/auth");
+const { orderRules, validate } = require("../middleware/validators");
+router.use(protect);
+router.post  ("/",         orderRules, validate, placeOrder);
+router.get   ("/",         getOrders);
+router.get   ("/pending",  getPendingOrders);
+router.delete("/:id",      cancelOrder);
+module.exports = router;
